@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Einwilligungsfähigkeit – Test & Auto‑Befund. Idee: Andrii Rianov</title>
+  <title>Einwilligungsfähigkeit-Tool. Prototyp.</title>
   <style>
     :root{--bg:#f7f9fc;--ink:#121622;--muted:#5f6b85;--primary:#375dfc;--good:#12b886;--bad:#ff4664;--warn:#e6a700;--good-bg:rgba(18,184,134,.40);--bad-bg:rgba(255,70,100,.40);--neutral-bg:rgba(55,93,252,.08);--radius:16px;--shadow:0 10px 30px rgba(0,0,0,.15);--ring:0 0 0 2px rgba(55,93,252,.18),0 8px 24px rgba(55,93,252,.12)}
     *{box-sizing:border-box}
@@ -12,6 +12,9 @@
     body{margin:0;color:var(--ink);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);line-height:1.6}
     body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(1200px 700px at -10% -10%, rgba(55,93,252,.12), transparent 60%),radial-gradient(900px 600px at 115% 10%, rgba(18,184,134,.10), transparent 55%),url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000"><defs><linearGradient id="g1" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="%23ffffff"/><stop offset="100%" stop-color="%23f5f7ff"/></linearGradient><radialGradient id="blob" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="%23375dfc" stop-opacity=".15"/><stop offset="100%" stop-color="%23375dfc" stop-opacity="0"/></radialGradient></defs><rect width="1600" height="1000" fill="url(%23g1)"/><g opacity="0.7"><circle cx="200" cy="220" r="180" fill="url(%23blob)"/><circle cx="1400" cy="160" r="220" fill="url(%23blob)"/><circle cx="1200" cy="820" r="280" fill="url(%23blob)"/></g><g opacity=".06" stroke="%23121622" stroke-width="1"><path d="M0 120 Q 300 60 600 120 T 1200 120 T 1600 120" fill="none"/><path d="M0 360 Q 300 300 600 360 T 1200 360 T 1600 360" fill="none"/><path d="M0 600 Q 300 540 600 600 T 1200 600 T 1600 600" fill="none"/></g></svg>'),url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncA type="table" tableValues="0 0 .02 .04"/></feComponentTransfer></filter><rect width="200" height="200" filter="url(%23n)"/></svg>');background-attachment:fixed,fixed,fixed,fixed;background-size:cover,cover,1600px 1000px,200px 200px;background-position:center}
     a{color:var(--primary)}.container{max-width:920px;margin:36px auto;padding:0 18px}
+    .page-header{margin-bottom:10px;display:flex;flex-direction:column;gap:4px}
+    .page-header .page-tag{font-size:.8rem;color:var(--muted)}
+    .page-header .page-meta{font-size:.8rem;color:var(--muted)}
     .card{background:var(--neutral-bg);border:1px solid rgba(17,23,41,.06);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px;margin:22px 0;position:relative;backdrop-filter:blur(6px)}
     .neon{transition:box-shadow .25s ease,border-color .25s ease,background-color .25s ease}.neon.pending{box-shadow:0 0 0 2px rgba(255,70,100,.22),0 0 26px rgba(255,70,100,.28);background:var(--bad-bg)}.neon.ready{box-shadow:0 0 0 2px rgba(18,184,134,.22),0 0 26px rgba(18,184,134,.28);background:var(--good-bg)}
     h1{font-size:1.7rem;margin:0 0 8px}h2{font-size:1.2rem;margin:0 0 12px}p.note{margin:.25rem 0 1rem;color:var(--muted)}
@@ -32,7 +35,7 @@
     input[type=range]::-moz-range-thumb{height:20px;width:20px;border-radius:50%;background:#fff;box-shadow:0 0 0 3px rgba(255,255,255,.7),0 4px 12px rgba(0,0,0,.2)}
     .ticks{display:flex;justify-content:space-between;font-size:.8rem;color:var(--muted)}.ticks span{width:24%;text-align:center}
     .ticks1{display:block;font-size:.8rem;color:var(--muted)}
-    .collapsible {background-color: transparent;color:var(--muted);cursor: pointer;padding: 8px;width: 10%;border: none;text-align: center;outline: none;font-size: 13px;margin-left:90%}
+    .collapsible {background-color: transparent;color:var(--muted);cursor: pointer;padding: 8px;width: 10%;border: none;text-align: center;outline: none;font-size: 13px;margin-left:25%}
     .active, .collapsible:hover {background-color: #ccc;}
     .content1 {padding: 0 18px;display: none;overflow: hidden;background-color:transparent;border-radius: 15px;}
     .pill{display:inline-flex;align-items:center;gap:8px;background:rgba(55,93,252,.06);border:1px dashed rgba(55,93,252,.3);border-radius:999px;padding:6px 10px;color:var(--ink);font-weight:600}
@@ -48,6 +51,10 @@
 </head>
 <body>
   <div class="container">
+    <div class="page-header">
+      <div class="page-tag">· Prototyp · nur Demonstrationszwecke (keine echten Patientendaten)</div>
+      <div class="page-meta">Browserbasiertes, lokal laufendes Instrument zur strukturierten Beurteilung der Einwilligungsfähigkeit im klinischen Kontext.</div>
+    </div>
     <div class="card">
       <h1>Einwilligungsfähigkeit (Maßnahmenbezogen)</h1>
       <p class="note">Modul zur strukturierten Prüfung und Dokumentation der Einwilligungsfähigkeit im klinischen Alltag. Bewertet die Domänen Verstehen, Erinnern, Abwägen und Willensmitteilung nach gängigen Kriterien (§ 630d BGB). Quellen sind unten verlinkt.</p>
@@ -178,7 +185,7 @@
   und ersetzt keine persönliche Beurteilung der Einwilligungsfähigkeit.
   Es speichert keine personenbezogenen Daten und arbeitet lokal im Browser.
   </footer>
-    <div class="signature">© 2025 Andrii Rianov – alle Rechte vorbehalten. Bremen 2025</div>
+    <div class="signature">Prototyp – nicht für den Einsatz an realen Patient*innen ohne fachärztliche Supervision bestimmt.<br> Idee und Entwicklung: <strong>Andrii Rianov</strong>, Bremen 2025</div>
   </div>
 
   <script>
@@ -237,5 +244,6 @@ for (i = 0; i < coll.length; i++) {
     updateChipsActive('#genderChoices');updateChipsActive('#massnahmeChoices');updateChipsActive('#kontextChoices');updateChipsActive('#vollmachtChoices');updateChipsActive('#zusatzChoices');neonUpdate();
   </script>
          
+
 
 
